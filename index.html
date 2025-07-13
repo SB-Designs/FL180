@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aircraft Photo Gallery</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <div class="logo-img-placeholder">
+        <svg width="240" height="120" viewBox="0 0 240 120">
+          <rect width="240" height="120" rx="8" fill="#e0e0e0"/>
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#222" font-size="18" font-family="Montserrat, Arial, sans-serif">
+            Logo Placeholder (8:4)
+          </text>
+        </svg>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h1 style="text-align:center;margin:2rem 0;">Aircraft Photo Gallery</h1>
+    <div id="gallery" class="gallery"></div>
+  </main>
+  <footer>
+    <div class="footer-text">
+      (c) SB Designs
+    </div>
+  </footer>
+  <script>
+    fetch('images.json')
+      .then(res => res.json())
+      .then(images => {
+        // Sort images by date_taken (assuming YYYY-MM-DD or similar format; otherwise, sort by array order)
+        images.sort((a, b) => new Date(a.date_taken_sort || a.date_taken) - new Date(b.date_taken_sort || b.date_taken));
+        const gallery = document.getElementById('gallery');
+        images.forEach(img => {
+          const link = document.createElement('a');
+          link.href = `image.html?id=${encodeURIComponent(img.id)}`;
+          link.className = 'gallery-item';
+          link.innerHTML = `
+            <div class="gallery-thumb">
+              <img src="${img.src.replace(/^images\//, 'photos/')}" alt="${img.aircraft} - ${img.airline}" />
+            </div>
+            <div class="gallery-caption">
+              <strong>${img.aircraft}</strong><br />
+              <span>${img.airline}</span>
+            </div>
+          `;
+          gallery.appendChild(link);
+        });
+      });
+  </script>
+</body>
+</html>
