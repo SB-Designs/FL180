@@ -1,0 +1,21 @@
+[
+  {
+    "id": "a380-bkk-20250101",
+    "src": "/photos/airbus_a380_emirates_bkk.jpg",
+    "aircraft": "Airbus A380-800",
+    "airline": "Emirates",
+    "date_taken": "1st Jan 2025",
+    "date_taken_sort": "2025-01-01",
+    "location": "Bangkok Suvarnabhumi (BKK)"
+  },
+  {
+    "id": "b787-lhr-20240618",
+    "src": "/photos/boeing_787_ba_lhr.jpg",
+    "aircraft": "Boeing 787-9",
+    "airline": "British Airways",
+    "date_taken": "18th June 2024",
+    "date_taken_sort": "2024-06-18",
+    "location": "London Heathrow (LHR)"
+  }
+  // Add more images as needed using the same structure
+]
