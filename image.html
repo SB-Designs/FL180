@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aircraft Photo Info</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <div class="logo-img-placeholder">
+        <svg width="240" height="120" viewBox="0 0 240 120">
+          <rect width="240" height="120" rx="8" fill="#e0e0e0"/>
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#222" font-size="18" font-family="Montserrat, Arial, sans-serif">
+            Logo Placeholder (8:4)
+          </text>
+        </svg>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div id="img-details"></div>
+  </main>
+  <footer>
+    <div class="footer-text">
+      (c) SB Designs
+    </div>
+  </footer>
+  <script>
+    // Utility to get URL params
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    // Load images.json and render details for the requested image
+    fetch('images.json')
+      .then(res => res.json())
+      .then(images => {
+        // Support "?url=" to lookup by image url, or "?id="
+        const urlParam = getParam('url');
+        const idParam = getParam('id');
+        let img;
+        if(urlParam){
+          img = images.find(i => i.src === urlParam);
+        }else if(idParam){
+          img = images.find(i => i.id === idParam);
+        }
+        const container = document.getElementById('img-details');
+        if (!img) {
+          container.innerHTML = '<p style="color:red;text-align:center;">Image not found.</p>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="image-section">
+            <div class="main-img-placeholder">
+              <img src="${img.src}" alt="${img.aircraft} - ${img.airline}" style="width:100%;height:auto;border-radius:4px;" />
+            </div>
+          </div>
+          <div class="info-section">
+            <div class="info-block">
+              <span class="info-label">AIRCRAFT</span>
+              <span class="info-value">${img.aircraft}</span>
+            </div>
+            <div class="info-block">
+              <span class="info-label">AIRLINE</span>
+              <span class="info-value">${img.airline}</span>
+            </div>
+            <div class="info-block">
+              <span class="info-label">DATE TAKEN</span>
+              <span class="info-value">${img.date_taken}</span>
+            </div>
+            <div class="info-block">
+              <span class="info-label">LOCATION</span>
+              <span class="info-value">${img.location}</span>
+            </div>
+          </div>
+        `;
+      });
+  </script>
+</body>
+</html>
